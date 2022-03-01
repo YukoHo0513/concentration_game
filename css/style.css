@@ -1,0 +1,19 @@
+div.container div img {
+  width: 100%;
+}
+
+div.container div.box {
+  position: relative;
+}
+div.container div.box div.overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  background-image: url("../../images/cards_back.png");
+  background-size: cover;
+  border-radius: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */

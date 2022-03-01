@@ -23,27 +23,39 @@ function displayCards(data) {
     cardsArr.forEach((card, index) => {
         if (index >= 0 && index <= 5 ) {
             firstRowHtml += `
-                <div class="col-2">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                <div class="col-2 mb-4">
+                    <div class="box">
+                        <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                        <div class="overlay"></div>
+                    </div>
                 </div>
             `
         } else if (index >= 6 && index <= 11) {
             secondRowHtml += `
-                <div class="col-2">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                <div class="col-2 mb-4">
+                    <div class="box">
+                        <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                        <div class="overlay"></div>
+                    </div>
                 </div>
             `
         } else if (index >= 12 && index <= 17) {
             thirdRowHtml += `
-                <div class="col-2">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                </div> 
+                <div class="col-2 mb-4">
+                    <div class="box">
+                        <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                        <div class="overlay"></div>
+                    </div>
+                </div>
             `
         } else if (index >= 18 && index <= 23) {
             fourthRowHtml += `
-                <div class="col-2">
-                    <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                </div> 
+                <div class="col-2 mb-4">
+                    <div class="box">
+                        <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                        <div class="overlay"></div>
+                    </div>
+                </div>
             `
         }
     });
