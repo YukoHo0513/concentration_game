@@ -10,8 +10,52 @@ const sixthRow = $(".sixth-row");
 $.get(baseAPI, function(data) {
     $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=24`, function(cardsData) {
         displayCards(cardsData);
+        const overlayCards = $(".clicked-div");
+        let count = 0;
+        let storedNum = 0;
+        let previousIndex = 0;
+        let box = $(".box");
+        overlayCards.on("click", function() {
+            $(this).removeClass("overlay");
+            count += 1;
+            const indexNum = parseInt($(this).parent().attr("data-index"));
+            if (count % 2 !== 0) {
+                storedNum = cardsArr[indexNum].value;
+                previousIndex = indexNum;
+                if (typeof storedNum === 'string') {
+                    if (storedNum === "JACK") {
+                        storedNum = 11;
+                    } else if (storedNum === "QUEEN") {
+                        storedNum = 12;
+                    }
+                }
+                console.log(storedNum);
+            } else if (count % 2 === 0) {
+                let secondNum = cardsArr[indexNum].value;
+                if (typeof storedNum === 'string') {
+                    if (secondNum === "JACK") {
+                        secondNum = 11;
+                    } else if (storedNum === "QUEEN") {
+                        secondNum = 12;
+                    }
+                }
+                if (storedNum === secondNum) {
+                    console.log("Matched!");
+                } else {
+                    $(this).addClass('overlay');
+                    for (let j = 0; j < box.length; j++) {
+                        if (parseInt($(box[j]).attr("data-index")) === previousIndex) {
+                            $(box[j]).children().last().addClass("overlay");
+                        }
+                    }
+                                        
+                }
+            } 
+            console.log("count", count);
+        })
     })
 })
+
 
 function displayCards(data) {
     cardsArr = data.cards;
@@ -24,36 +68,36 @@ function displayCards(data) {
         if (index >= 0 && index <= 5 ) {
             firstRowHtml += `
                 <div class="col-2 mb-4">
-                    <div class="box">
+                    <div class="box" data-index="${index}">
                         <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                        <div class="overlay"></div>
+                        <div class="overlay clicked-div"></div>
                     </div>
                 </div>
             `
         } else if (index >= 6 && index <= 11) {
             secondRowHtml += `
                 <div class="col-2 mb-4">
-                    <div class="box">
+                    <div class="box" data-index="${index}">
                         <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                        <div class="overlay"></div>
+                        <div class="overlay clicked-div"></div>
                     </div>
                 </div>
             `
         } else if (index >= 12 && index <= 17) {
             thirdRowHtml += `
                 <div class="col-2 mb-4">
-                    <div class="box">
+                    <div class="box" data-index="${index}">
                         <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                        <div class="overlay"></div>
+                        <div class="overlay clicked-div"></div>
                     </div>
                 </div>
             `
         } else if (index >= 18 && index <= 23) {
             fourthRowHtml += `
                 <div class="col-2 mb-4">
-                    <div class="box">
+                    <div class="box" data-index="${index}">
                         <img src="${card.image}" alt="${card.value} of ${card.suit}">
-                        <div class="overlay"></div>
+                        <div class="overlay clicked-div"></div>
                     </div>
                 </div>
             `
@@ -64,4 +108,5 @@ function displayCards(data) {
     thirdRow.html(thirdRowHtml);
     fourthRow.html(fourthRowHtml);
 }
+
 
