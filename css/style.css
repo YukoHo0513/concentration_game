@@ -2,6 +2,31 @@ div.container div img {
   width: 100%;
 }
 
+div.container {
+  position: relative;
+  padding: 20px;
+}
+div.container .overlay {
+  position: absolute;
+  background-color: rgba(255, 218, 185, 0.612);
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+div.container .btn-outline-info {
+  position: absolute;
+  background-color: #80c9f0;
+  border: solid 3px white;
+  border-radius: 10px;
+  color: white;
+  top: 45%;
+  left: 42%;
+  width: 250px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 40px;
+}
 div.container div.box {
   position: relative;
 }

@@ -42,13 +42,20 @@ $.get(baseAPI, function(data) {
                 if (storedNum === secondNum) {
                     console.log("Matched!");
                 } else {
-                    $(this).addClass('overlay');
-                    for (let j = 0; j < box.length; j++) {
-                        if (parseInt($(box[j]).attr("data-index")) === previousIndex) {
-                            $(box[j]).children().last().addClass("overlay");
+                    const target = $(this);
+                    const addOverlay = function() {
+                        target.addClass('overlay');
+                        for (let j = 0; j < box.length; j++) {
+                            if (parseInt($(box[j]).attr("data-index")) === previousIndex) {
+                                $(box[j]).children().last().addClass("overlay");
+                            }
                         }
                     }
-                                        
+                    setTimeout(addOverlay, 2000)
+                }
+
+                if ($(box).children().last().attr('class') === "clicked-div") {
+                    
                 }
             } 
             console.log("count", count);
