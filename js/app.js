@@ -6,6 +6,40 @@ const thirdRow = $(".third-row");
 const fourthRow = $(".fourth-row");
 const fifthRow = $(".fifth-row");
 const sixthRow = $(".sixth-row");
+const startButton = $(".btn-outline-info");
+const bigOverlay = $(".big-overlay");
+
+startButton.on("click", function() {
+    $(this).hide();
+    bigOverlay.hide();
+    let hour = 0;
+    let minute = 0;
+    let second = 0;
+    start();
+    function start() {
+        setInterval(() => { 
+            second++;
+            timer();
+        }, 1000);
+    }
+    function timer() {
+        if (second == 60) {
+            second = 0;
+            minute++;
+        }
+        if (minute == 60) {
+            minute = 0;
+            hour++;
+        }
+        $("#hour").html(returnData(hour));
+        $("#minute").html(returnData(minute));
+        $("#second").html(returnData(second));
+    }
+    function returnData(input) {
+        return input > 10 ? input : `0${input}`;
+    }
+
+})
 
 $.get(baseAPI, function(data) {
     $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=24`, function(cardsData) {
@@ -55,7 +89,7 @@ $.get(baseAPI, function(data) {
                 }
 
                 if ($(box).children().last().attr('class') === "clicked-div") {
-                    
+
                 }
             } 
             console.log("count", count);

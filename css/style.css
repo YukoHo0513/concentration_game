@@ -2,11 +2,21 @@ div.container div img {
   width: 100%;
 }
 
+section#clock {
+  background-color: rgba(121, 127, 133, 0.63);
+  color: white;
+  width: 200px;
+  border-radius: 15px;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 40px;
+}
+
 div.container {
   position: relative;
   padding: 20px;
 }
-div.container .overlay {
+div.container .big-overlay {
   position: absolute;
   background-color: rgba(255, 218, 185, 0.612);
   top: 0px;
@@ -16,9 +26,9 @@ div.container .overlay {
 }
 div.container .btn-outline-info {
   position: absolute;
-  background-color: #80c9f0;
-  border: solid 3px white;
-  border-radius: 10px;
+  background-color: #f09e23;
+  border: solid 4px white;
+  border-radius: 15px;
   color: white;
   top: 45%;
   left: 42%;
