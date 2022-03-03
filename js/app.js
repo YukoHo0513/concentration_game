@@ -54,8 +54,12 @@ function getAPI() {
             let previousIndex = 0;
             let boxes = $(".box");
             overlayCards.on("click", function() {
+                count += 1;
+
+            if (count >= 3) {
+                return
+            }
             $(this).removeClass("overlay");
-            count += 1;
             const indexNum = parseInt($(this).parent().attr("data-index"));
             if (count % 2 !== 0) {
                 storedNum = cardsArr[indexNum].value;
@@ -70,7 +74,6 @@ function getAPI() {
                     }   
                 }
             } else if (count % 2 === 0) {
-                overlayCards.off("click");
                 let secondNum = cardsArr[indexNum].value;
                 if (typeof secondNum === 'string') {
                     if (secondNum === "JACK") {
@@ -86,7 +89,9 @@ function getAPI() {
                 } else {
                     const target = $(this);
                     const addOverlay = function() {
+                        count = 0;
                         target.addClass('overlay');
+
                         for (let j = 0; j < boxes.length; j++) {
                             if (parseInt($(boxes[j]).attr("data-index")) === previousIndex) {
                                 $(boxes[j]).children().last().addClass("overlay");
@@ -96,6 +101,7 @@ function getAPI() {
                     setTimeout(addOverlay, 2000)
                 }
             } 
+
             let correctCardCount = 0;
             boxes.each( (index, box) => {
                 if ($(box).children().last().attr('class') === "clicked-div") {
