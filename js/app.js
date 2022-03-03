@@ -8,16 +8,19 @@ const fifthRow = $(".fifth-row");
 const sixthRow = $(".sixth-row");
 const startButton = $(".btn-outline-info");
 const bigOverlay = $(".big-overlay");
+let stop;
+
 
 startButton.on("click", function() {
-    $(this).hide();
-    bigOverlay.hide();
+    $(this).css('display', 'none');
+    bigOverlay.css('display', 'none');
+    getAPI();
     let hour = 0;
     let minute = 0;
     let second = 0;
     start();
     function start() {
-        setInterval(() => { 
+        stop = setInterval(() => { 
             second++;
             timer();
         }, 1000);
@@ -36,20 +39,21 @@ startButton.on("click", function() {
         $("#second").html(returnData(second));
     }
     function returnData(input) {
-        return input > 10 ? input : `0${input}`;
+        return input > 9 ? input : `0${input}`;
     }
 
 })
 
-$.get(baseAPI, function(data) {
-    $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=24`, function(cardsData) {
-        displayCards(cardsData);
-        const overlayCards = $(".clicked-div");
-        let count = 0;
-        let storedNum = 0;
-        let previousIndex = 0;
-        let box = $(".box");
-        overlayCards.on("click", function() {
+function getAPI() {
+    $.get(baseAPI, function(data) {
+        $.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=24`, function(cardsData) {
+            displayCards(cardsData);
+            const overlayCards = $(".clicked-div");
+            let count = 0;
+            let storedNum = 0;
+            let previousIndex = 0;
+            let boxes = $(".box");
+            overlayCards.on("click", function() {
             $(this).removeClass("overlay");
             count += 1;
             const indexNum = parseInt($(this).parent().attr("data-index"));
@@ -61,16 +65,20 @@ $.get(baseAPI, function(data) {
                         storedNum = 11;
                     } else if (storedNum === "QUEEN") {
                         storedNum = 12;
-                    }
+                    } else if (storedNum === "ACE") {
+                        storedNum = 1;
+                    }   
                 }
-                console.log(storedNum);
             } else if (count % 2 === 0) {
+                overlayCards.off("click");
                 let secondNum = cardsArr[indexNum].value;
-                if (typeof storedNum === 'string') {
+                if (typeof secondNum === 'string') {
                     if (secondNum === "JACK") {
                         secondNum = 11;
-                    } else if (storedNum === "QUEEN") {
+                    } else if (secondNum === "QUEEN") {
                         secondNum = 12;
+                    } else if (secondNum === "ACE") {
+                        secondNum = 1;
                     }
                 }
                 if (storedNum === secondNum) {
@@ -79,23 +87,36 @@ $.get(baseAPI, function(data) {
                     const target = $(this);
                     const addOverlay = function() {
                         target.addClass('overlay');
-                        for (let j = 0; j < box.length; j++) {
-                            if (parseInt($(box[j]).attr("data-index")) === previousIndex) {
-                                $(box[j]).children().last().addClass("overlay");
+                        for (let j = 0; j < boxes.length; j++) {
+                            if (parseInt($(boxes[j]).attr("data-index")) === previousIndex) {
+                                $(boxes[j]).children().last().addClass("overlay");
                             }
                         }
                     }
                     setTimeout(addOverlay, 2000)
                 }
-
-                if ($(box).children().last().attr('class') === "clicked-div") {
-
-                }
             } 
+            let correctCardCount = 0;
+            boxes.each( (index, box) => {
+                if ($(box).children().last().attr('class') === "clicked-div") {
+                    correctCardCount++;
+                }
+            })
+            if (correctCardCount === 24) {
+                startButton.html(`
+                    <div>You won!</div>
+                    <div>Play again &#128515;</div>
+                `);
+                clearInterval(stop);
+                startButton.css('display', 'inline');
+                bigOverlay.css('display', 'inline');
+            }
             console.log("count", count);
         })
+        })
     })
-})
+}
+getAPI();
 
 
 function displayCards(data) {
